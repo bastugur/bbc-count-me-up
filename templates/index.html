@@ -1,0 +1,83 @@
+<html ng-app>
+<head>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="{{ url_for('static',filename='css/materialize.min.css') }}"  media="screen,projection"/>
+
+  <title>count me up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+</head>
+<body>
+
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <h1 class="header center orange-text">count-me-up</h1>
+      <input placeholder="enter your username here" ng-model="name"> Hello {{ name }}
+
+      <div class="row center">
+        <h5 id="vote-information" class="header col s12 light"></h5>
+      </div>
+      <div class="row center">
+        <!-- Dropdown Trigger -->
+	  <a class='dropdown-button btn' href='#' data-activates='dd-selector'>Pick Your Candidate</a>
+
+	  <!-- Dropdown Structure -->
+	  <ul id='dd-selector' class='dropdown-content'>
+	    <li><a href="#!">candidate #1</a></li>
+	    <li><a href="#!">candidate #2</a></li>
+	    <li><a href="#!">candidate #3</a></li>
+	   	<li><a href="#!">candidate #4</a></li>
+	   	<li><a href="#!">candidate #5</a></li>
+	  </ul>
+      <br><br>
+      <a href="#" id="download-button" class="btn-large waves-effect waves-light orange">Vote</a>
+
+      </div>
+
+      <div class="row center">
+      <table>
+        <thead>
+          <tr>
+              <th data-field="id">Name</th>
+              <th data-field="name">Item Name</th>
+              <th data-field="price">Item Price</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>Alvin</td>
+            <td>Eclair</td>
+            <td>$0.87</td>
+          </tr>
+          <tr>
+            <td>Alan</td>
+            <td>Jellybean</td>
+            <td>$3.76</td>
+          </tr>
+          <tr>
+            <td>Jonathan</td>
+            <td>Lollipop</td>
+            <td>$7.00</td>
+          </tr>
+        </tbody>
+      </table>
+
+      </div>
+    </div>
+  </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/materialize.min.js') }}"></script>
+<script>
+	$("#dd-selector").change(function() {
+		var selectedCandidate = $("#dd-selector option:selected").text();
+		$("vote-information").text = "it looks like you are voting for "+selectedCandidate;
+	});
+</script>
+</body>
+</html>
