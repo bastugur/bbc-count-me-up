@@ -41,27 +41,37 @@
       <table>
         <thead>
           <tr>
-              <th data-field="id">Name</th>
-              <th data-field="name">Item Name</th>
-              <th data-field="price">Item Price</th>
+              <th data-field="id">Candidate Number</th>
+              <th data-field="name">Total Votes Get</th>
+              <th data-field="price">Percentage</th>
           </tr>
         </thead>
 
         <tbody>
           <tr>
-            <td>Alvin</td>
-            <td>Eclair</td>
-            <td>$0.87</td>
+            <td>1</td>
+            <td>{{results[1]}}</td>
+            <td>{{100*results[1]/results.values()|sum}}%</td>
           </tr>
           <tr>
-            <td>Alan</td>
-            <td>Jellybean</td>
-            <td>$3.76</td>
+            <td>2</td>
+            <td>{{results[2]}}</td>
+            <td>{{100*results[2]/results.values()|sum}}%</td>
           </tr>
           <tr>
-            <td>Jonathan</td>
-            <td>Lollipop</td>
-            <td>$7.00</td>
+            <td>3</td>
+            <td>{{results[3]}}</td>
+            <td>{{100*results[3]/results.values()|sum}}%</td>
+          </tr>
+            <tr>
+            <td>4</td>
+            <td>{{results[4]}}</td>
+            <td>{{100*results[4]/results.values()|sum}}%</td>
+          </tr>
+            <tr>
+            <td>5</td>
+            <td>{{results[5]}}</td>
+            <td>{{100*results[5]/results.values()|sum}}%</td>
           </tr>
         </tbody>
       </table>

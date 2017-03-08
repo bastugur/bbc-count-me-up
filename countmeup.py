@@ -3,11 +3,13 @@ import pdb as debugger;
 import time
 import random
 import pickle
+import multiprocessing
+
+from multiprocessing import Manager
 from multiprocessing import Process
 
-
 results = dd(int)
-
+done=0
 
 class User:
    def __init__(self, name):
@@ -17,7 +19,7 @@ class User:
 
 def vote(user, candidateid):
 	if(canVote(user)):
-		results[candidateid]+=1;
+		results[candidateid]+=1
 	else:
 		print(user.name+" already voted 3 times")
 
@@ -55,32 +57,40 @@ def simulateLargeVotes():
 	with open('votes.pickle', 'wb') as handle:
 	    pickle.dump(results, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
+def calculateCandidate(pid,shared):
+	target = ('candidate-'+str(pid+1))
+	shared[pid+1]=results[target]
+def requestPercentageMultiProcess():
+	start = time.time()
+
+   	jobs = []
+
+   	manager = multiprocessing.Manager()
+   	shared = manager.dict()
+
+   	for i in range(5):
+		p = multiprocessing.Process(target=calculateCandidate, args=(i,shared))
+		jobs.append(p)
+		p.start()
+	for j in jobs:
+		j.join()
+	print "execution time", time.time() - start, "s."
+
+	return shared
 
 def main():
+
 	#simulateLargeVotes()
-   	results = pickle.load( open( "votes.pickle", "rb" ))
 
-   	
-   	requestPercentage(results)
-	'''
-	ugur = User("Ugur")
-	notugur = User("Not Ugur")
+	return requestPercentageMultiProcess()
 
-	vote(ugur,'candidate-1')
-	vote(ugur,'candidate-2')
-	vote(ugur,'candidate-1')
-	vote(ugur,'candidate-1')
-	vote(notugur,'candidate-5')
-	vote(notugur,'candidate-5')
-	vote(notugur,'candidate-5')
-	'''
 
-if __name__ == '__main__':
-	results["candidate-1"]=0
-	results["candidate-2"]=0
-	results["candidate-3"]=0
-	results["candidate-4"]=0
-	results["candidate-5"]=0
+results["candidate-1"]=0
+results["candidate-2"]=0
+results["candidate-3"]=0
+results["candidate-4"]=0
+results["candidate-5"]=0
 
-	main()
+results = pickle.load( open( "votes.pickle", "rb" ))
+main()
 

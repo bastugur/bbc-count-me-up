@@ -1,12 +1,19 @@
 from flask import Flask, url_for, render_template
+import countmeup
 
 
 app = Flask(__name__)
 
 
 @app.route("/")
-def hello():
-    return render_template('index.html')
+
+@app.route('/')
+def data():
+	results = countmeup.main()
+	print results
+	return render_template('index.html',results=results)
+
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
+
