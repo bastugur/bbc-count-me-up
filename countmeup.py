@@ -60,6 +60,7 @@ def simulateLargeVotes():
 def calculateCandidate(pid,shared):
 	target = ('candidate-'+str(pid+1))
 	shared[pid+1]=results[target]
+
 def requestPercentageMultiProcess():
 	start = time.time()
 
@@ -75,14 +76,8 @@ def requestPercentageMultiProcess():
 	for j in jobs:
 		j.join()
 	print "execution time", time.time() - start, "s."
+	return shared.copy()
 
-	return shared
-
-def main():
-
-	#simulateLargeVotes()
-
-	return requestPercentageMultiProcess()
 
 
 results["candidate-1"]=0
@@ -92,5 +87,5 @@ results["candidate-4"]=0
 results["candidate-5"]=0
 
 results = pickle.load( open( "votes.pickle", "rb" ))
-main()
+
 
