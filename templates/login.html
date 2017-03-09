@@ -1,0 +1,112 @@
+<html>
+<head>
+      <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link href="https://fonts.googleapis.com/css?family=Inconsolata|Open+Sans|Source+Code+Pro" rel="stylesheet">
+
+      <link type="text/css" rel="stylesheet" href="{{ url_for('static',filename='css/materialize.min.css') }}"  media="screen,projection"/>
+      <link type="text/css" rel="stylesheet" href="{{ url_for('static',filename='css/overwrites.css') }}"  media="screen,projection"/>
+
+  <title>count me up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+</head>
+<body>
+
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <h1 class="header center orange-text">count-me-up</h1>
+
+      <div class="row center">
+        <h5 id="vote-information" class="header col s12 light"></h5>
+      </div>
+      <div class="row center">
+        <!-- Dropdown Trigger -->
+
+        <div class="row">
+          <form id='register-form' class="col s12" action='loginsuccess'>
+            <div class="row">
+              <div class="input-field col s6">
+                <input placeholder="Placeholder" id="username" type="text" class="validate">
+                <label for="username">Name</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="password" type="password" class="validate">
+                <label for="password">Password</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="email" type="email" class="validate">
+                <label for="email">Email</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s12">
+                This is an inline input field:
+                <div class="input-field inline">
+                  <input id="email" type="email" class="validate">
+                  <label for="email" data-error="wrong" data-success="right">Email</label>
+                </div>
+              </div>
+            </div>
+            <button class="btn waves-effect waves-light" type="submit" name="action" id='register-button'>Submit
+            <i class="material-icons right">send</i>
+            </button>
+          </form>
+        </div>
+
+
+
+
+      <br><br>
+
+      </div>
+
+
+
+      </div>
+
+    </div>
+  </div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/materialize.min.js') }}"></script>
+<script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCWub-u9lHbazMA6UHtexN6vbblAfhT0sE",
+    authDomain: "count-me-up-2d6d6.firebaseapp.com",
+    databaseURL: "https://count-me-up-2d6d6.firebaseio.com",
+    storageBucket: "count-me-up-2d6d6.appspot.com",
+    messagingSenderId: "590054947551"
+  };
+  firebase.initializeApp(config);
+
+$('#register-form').submit(function() {
+  // your code here
+  var uname=$("#username").val()
+  var email=$("#email").val()
+  var pass=$("#password").val()
+
+  firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+    if(error){
+      window.alert(error.message)
+      return false
+    }
+
+  });
+
+});
+</script>
+
+</body>
+
+
+</body>
+</html>

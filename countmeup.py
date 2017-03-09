@@ -8,14 +8,28 @@ import multiprocessing
 from multiprocessing import Manager
 from multiprocessing import Process
 
-results = dd(int)
-done=0
-
 class User:
    def __init__(self, name):
       self.name = name
       self.votesCast = 0
 
+results = dd(int)
+users = dd(User)
+
+done=0
+
+
+
+def getUser(email):
+	for user in users:
+		if user.name == email:
+			return user
+
+def createUser(email):
+	newUser = User(email)
+	users[randomword(20)]=newUser
+	print users
+	return newUser
 
 def vote(user, candidateid):
 	if(canVote(user)):
@@ -50,6 +64,12 @@ def printSummary():
 
 	requestPercentage()
 
+
+import random, string
+
+def randomword(length):
+   return ''.join(random.choice(string.lowercase) for i in range(length))
+
 def simulateLargeVotes():
 	for x in xrange(0,10000000):
 		randomCandidate = "candidate-"+str(random.randint(1, 5));
@@ -75,6 +95,7 @@ def requestPercentageMultiProcess():
 		p.start()
 	for j in jobs:
 		j.join()
+	shared["Total Votes"]=sum(results.values())
 	print "execution time", time.time() - start, "s."
 	return shared.copy()
 
@@ -87,5 +108,6 @@ results["candidate-4"]=0
 results["candidate-5"]=0
 
 results = pickle.load( open( "votes.pickle", "rb" ))
+requestPercentageMultiProcess()
 
 

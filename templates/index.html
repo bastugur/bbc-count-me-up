@@ -21,15 +21,19 @@
 
       <div class="row center">
         <h5 id="vote-information" class="header col s12 light"></h5>
+        <div class="chip">
+        <a id="username-label">You are not currently logged in</a>
+        </div>
+
       </div>
       <div class="row center">
         <!-- Dropdown Trigger -->
 
-        <form action="vote" method="post" id='form'>
+        <form action="vote" method="post" id='form' onsubmit="return checkValidity();" >
               <div class="input-field col s12">
-                <input placeholder="enter your voter id here" name="name">
+                <input placeholder="enter your voter id here" name="name" id="name-field">
 
-                <select name="candidate">
+                <select name="candidate" id="candidate-picker">
                   <option value="" disabled selected>Select your candidate</option>
                   <option value="1">Candidate 1</option>
                   <option value="2">Candidate 2</option>
@@ -66,7 +70,7 @@
           <tr>
             <td id="id-{{result}}">{{result}}</td>
             <td id="vote-{{result}}">{{results[result]}}</td>
-            <td id="percentage-{{result}}">{{100*results[result]/results.values()|sum}}%</td>
+            <td id="percentage-{{result}}">{{100*results[result]/results["Total Votes"]}}%</td>
           </tr>
           {% endfor %}
 
@@ -77,8 +81,8 @@
       </div>
 <footer>
       <div class="row center">
-      <h2>stack</h2>>
-      <img src="{{ url_for('static',filename='img/stack1.png') }}"/>
+      <h2>stack</h2>
+      <img src="{{ url_for('static',filename='img/stack2.png') }}"/>
       </div>
 </footer>
 
@@ -87,14 +91,27 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='js/materialize.min.js') }}"></script>
 <script>
-	$("#dd-selector").change(function() {
-		var selectedCandidate = $("#dd-selector option:selected").text();
-		$("vote-information").text = "voting for"+selectedCandidate;
-	});
-   $(document).ready(function() {
-    $('select').material_select();
-  });
-        
+function displayToast(content){
+    Materialize.toast(content, 4000)
+}
+
+function checkValidity(evt){
+  window.alert('ok')
+  evt.preventDefault();
+  if($("#name-field").text==null){
+    displayToast("vote sent")
+    return false;
+  }
+}
+$("#candidate-picker").change(function() {
+	var selectedCandidate = $("#candidate-picker option:selected").text();
+  displayToast(selectedCandidate+" is selected");
+});
+
+ $(document).ready(function() {
+  $('select').material_select();
+});
+    
 </script>
 <script>
 window.setInterval(function(){
@@ -107,14 +124,29 @@ window.setInterval(function(){
         var json_response=response
         $.each(response, function( index, value ) {
           $("#vote-"+index).html(value)
+          $("#percentage-"+index).html(100*value/response["Total Votes"]+"%")
 
         });
       },
-      error: function(xhr) {
-        //Do Something to handle error
+      error: function(err) {
+        window.alert("Can't fetch the results right now.")
+        //handle error
       }
     });
   }, 1000);
+</script>
+<script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCWub-u9lHbazMA6UHtexN6vbblAfhT0sE",
+    authDomain: "count-me-up-2d6d6.firebaseapp.com",
+    databaseURL: "https://count-me-up-2d6d6.firebaseio.com",
+    storageBucket: "count-me-up-2d6d6.appspot.com",
+    messagingSenderId: "590054947551"
+  };
+  firebase.initializeApp(config);
 </script>
 
 </body>
