@@ -19,7 +19,7 @@ class User:
 
 def vote(user, candidateid):
 	if(canVote(user)):
-		results[candidateid]+=1
+		results["candidate-"+str(candidateid)]+=1
 	else:
 		print(user.name+" already voted 3 times")
 

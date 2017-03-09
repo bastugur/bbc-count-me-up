@@ -1,9 +1,12 @@
-<html ng-app>
+<html>
 <head>
       <!--Import Google Icon Font-->
       <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <!--Import materialize.css-->
+      <link href="https://fonts.googleapis.com/css?family=Inconsolata|Open+Sans|Source+Code+Pro" rel="stylesheet">
+
       <link type="text/css" rel="stylesheet" href="{{ url_for('static',filename='css/materialize.min.css') }}"  media="screen,projection"/>
+      <link type="text/css" rel="stylesheet" href="{{ url_for('static',filename='css/overwrites.css') }}"  media="screen,projection"/>
 
   <title>count me up</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -15,25 +18,35 @@
     <div class="container">
       <br><br>
       <h1 class="header center orange-text">count-me-up</h1>
-      <input placeholder="enter your username here" ng-model="name"> Hello {{ name }}
 
       <div class="row center">
         <h5 id="vote-information" class="header col s12 light"></h5>
       </div>
       <div class="row center">
         <!-- Dropdown Trigger -->
-	  <a class='dropdown-button btn' href='#' data-activates='dd-selector'>Pick Your Candidate</a>
 
-	  <!-- Dropdown Structure -->
-	  <ul id='dd-selector' class='dropdown-content'>
-	    <li><a href="#!">candidate #1</a></li>
-	    <li><a href="#!">candidate #2</a></li>
-	    <li><a href="#!">candidate #3</a></li>
-	   	<li><a href="#!">candidate #4</a></li>
-	   	<li><a href="#!">candidate #5</a></li>
-	  </ul>
+        <form action="vote" method="post" '>
+              <div class="input-field col s12">
+                <input placeholder="enter your voter id here" name="name">
+
+                <select name="candidate">
+                  <option value="" disabled selected>Select your candidate</option>
+                  <option value="1">Candidate 1</option>
+                  <option value="2">Candidate 2</option>
+                  <option value="3">Candidate 3</option>
+                  <option value="4">Candidate 4</option>
+                  <option value="5">Candidate 5</option>
+                </select>
+              </div>
+
+              <button class="btn waves-effect waves-light" type="submit">Vote
+                <i class="material-icons right">send</i>
+              </button>
+
+        </form>
+
+
       <br><br>
-      <a href="#" id="download-button" class="btn-large waves-effect waves-light orange">Vote</a>
 
       </div>
 
@@ -77,6 +90,11 @@
       </table>
 
       </div>
+
+      <div class="row center">
+      <img src="{{ url_for('static',filename='img/stack.png') }}"/>
+      </div>
+
     </div>
   </div>
 
@@ -88,6 +106,11 @@
 		var selectedCandidate = $("#dd-selector option:selected").text();
 		$("vote-information").text = "it looks like you are voting for "+selectedCandidate;
 	});
+   $(document).ready(function() {
+    $('select').material_select();
+  });
+        
+
 </script>
 </body>
 </html>
