@@ -17,7 +17,8 @@
   <div class="section no-pad-bot" id="index-banner">
     <div class="container">
       <br><br>
-      <h1 class="header center orange-text">count-me-up</h1>
+      <h1 class="header center orange-text">login</h1>
+      <h1 class="header center orange-text">{{message}}</h1>
 
       <div class="row center">
         <h5 id="vote-information" class="header col s12 light"></h5>
@@ -26,33 +27,29 @@
         <!-- Dropdown Trigger -->
 
         <div class="row">
-          <form id='register-form' class="col s12" action='loginsuccess'>
-            <div class="row">
-              <div class="input-field col s6">
-                <input placeholder="Placeholder" id="username" type="text" class="validate">
-                <label for="username">Name</label>
-              </div>
-            </div>
+          <form id='register-form' class="col s12" action='loginsuccess' method='POST'>
             <div class="row">
               <div class="input-field col s12">
-                <input id="password" type="password" class="validate">
-                <label for="password">Password</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s12">
-                <input id="email" type="email" class="validate">
+                <input id="email" name='email' type="email" class="validate">
                 <label for="email">Email</label>
               </div>
             </div>
             <div class="row">
-              <div class="col s12">
-                This is an inline input field:
-                <div class="input-field inline">
-                  <input id="email" type="email" class="validate">
-                  <label for="email" data-error="wrong" data-success="right">Email</label>
-                </div>
+              <div class="input-field col s12">
+                <input id="password" name='password' type="password" class="validate">
+                <label for="password">Password</label>
               </div>
+            </div>
+            <div class="row">
+              <!-- Switch -->
+            <div class="switch">
+              <label>
+                log-in
+                <input type="checkbox" name='login_or_register'>
+                <span class="lever"></span>
+                register
+              </label>
+            </div>
             </div>
             <button class="btn waves-effect waves-light" type="submit" name="action" id='register-button'>Submit
             <i class="material-icons right">send</i>
@@ -77,33 +74,6 @@
 <script type="text/javascript" src="{{ url_for('static',filename='js/materialize.min.js') }}"></script>
 <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
 
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCWub-u9lHbazMA6UHtexN6vbblAfhT0sE",
-    authDomain: "count-me-up-2d6d6.firebaseapp.com",
-    databaseURL: "https://count-me-up-2d6d6.firebaseio.com",
-    storageBucket: "count-me-up-2d6d6.appspot.com",
-    messagingSenderId: "590054947551"
-  };
-  firebase.initializeApp(config);
-
-$('#register-form').submit(function() {
-  // your code here
-  var uname=$("#username").val()
-  var email=$("#email").val()
-  var pass=$("#password").val()
-
-  firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-    if(error){
-      window.alert(error.message)
-      return false
-    }
-
-  });
-
-});
-</script>
 
 </body>
 

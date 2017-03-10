@@ -22,7 +22,12 @@
       <div class="row center">
         <h5 id="vote-information" class="header col s12 light"></h5>
         <div class="chip">
-        <a id="username-label">You are not currently logged in</a>
+        {% if user_data %}
+            Hi {{user_data.email}}, <a href=/logout>log out?</a>
+        {% else %}
+            You are not currently logged in, <a href=/login>log in?</a>
+        {% endif %}
+
         </div>
 
       </div>
@@ -31,8 +36,6 @@
 
         <form action="vote" method="post" id='form' onsubmit="return checkValidity();" >
               <div class="input-field col s12">
-                <input placeholder="enter your voter id here" name="name" id="name-field">
-
                 <select name="candidate" id="candidate-picker">
                   <option value="" disabled selected>Select your candidate</option>
                   <option value="1">Candidate 1</option>
