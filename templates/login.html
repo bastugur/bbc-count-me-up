@@ -45,7 +45,7 @@
             <div class="switch">
               <label>
                 log-in
-                <input type="checkbox" name='login_or_register'>
+                <input id='switch' type="checkbox" name='login_or_register'>
                 <span class="lever"></span>
                 register
               </label>
@@ -73,7 +73,23 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='js/materialize.min.js') }}"></script>
 <script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
+<script>
+  $('#switch').change(function() {
+    //This switch is responsible for changing the forms action routeing.
+    //I decided to use a simple switch in order to prevent using two different interfaces both for register and
+    var status = $(this).is(":checked")
+    if(status==true){
+      $("#register-form").attr("action", "/register")
 
+    }
+    if(status==false){
+      $("#register-form").attr("action", "/loginsuccess")
+    }
+  })
+
+
+
+</script>
 
 </body>
 

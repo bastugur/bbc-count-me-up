@@ -18,6 +18,7 @@
     <div class="container">
       <br><br>
       <h1 class="header center orange-text">count-me-up</h1>
+      <h3 class="header center orange-text">{{message}}</h3>
 
       <div class="row center">
         <h5 id="vote-information" class="header col s12 light"></h5>
@@ -94,11 +95,14 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='js/materialize.min.js') }}"></script>
 <script>
+
 function displayToast(content){
-    Materialize.toast(content, 4000)
+  //good looking notifier
+  Materialize.toast(content, 4000)
 }
 
 function checkValidity(evt){
+  //delete this
   window.alert('ok')
   evt.preventDefault();
   if($("#name-field").text==null){
@@ -106,7 +110,9 @@ function checkValidity(evt){
     return false;
   }
 }
+
 $("#candidate-picker").change(function() {
+  //just for user-experience
 	var selectedCandidate = $("#candidate-picker option:selected").text();
   displayToast(selectedCandidate+" is selected");
 });
@@ -117,9 +123,9 @@ $("#candidate-picker").change(function() {
     
 </script>
 <script>
-window.setInterval(function(){
-  /// call your function here
 
+window.setInterval(function(){
+    //This AJAX request is invoked every second in order to update the interface for the current status of the results
     $.ajax({
       url: "/fetch",
       type: "get",
@@ -137,19 +143,6 @@ window.setInterval(function(){
       }
     });
   }, 1000);
-</script>
-<script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
-
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCWub-u9lHbazMA6UHtexN6vbblAfhT0sE",
-    authDomain: "count-me-up-2d6d6.firebaseapp.com",
-    databaseURL: "https://count-me-up-2d6d6.firebaseio.com",
-    storageBucket: "count-me-up-2d6d6.appspot.com",
-    messagingSenderId: "590054947551"
-  };
-  firebase.initializeApp(config);
 </script>
 
 </body>
