@@ -20,8 +20,6 @@ users = dd(User)
 
 done=0
 
-
-
 def getUser(email):
 	for user in users:
 		if user.name == email:
@@ -50,8 +48,6 @@ def requestPercentage(results):
 	for candidate in results:
 		print candidate, 100*results[candidate]/sum(results.values())
 	print "execution time", time.time() - start, "s."
-	if(time.time()-start<=0):
-		print("1 sec threshold satisfied")
 
 def canVote(user):
 	#client side check. Not really important since the first/main check happens in the server side.
@@ -66,7 +62,6 @@ def createNewUser(name):
 	return User(name);
 
 def printSummary():
-
 	requestPercentage()
 
 
@@ -76,11 +71,23 @@ def randomword(length):
    return ''.join(random.choice(string.lowercase) for i in range(length))
 
 def simulateLargeVotes():
-	#This wont be executed. I ran this one in order to simulate the votes earlier and saved it in a file
+	#This wont be executed. I ran this one in order to simulate the votes earlier and saved it in a file in order to save run-time
+	for x in range(0,500000):
+		vote( User("someone"),1);
+	for x in range(0,1000000):
+		vote( User("someone"),2);
+	for x in range(0,2000000):
+		vote( User("someone"),3);
+	for x in range(0,2500000):
+		vote( User("someone"),4);
+	for x in range(0,4000000):
+		vote( User("someone"),5);
+	'''
 	for x in xrange(0,10000000):
 		randomCandidate = "candidate-"+str(random.randint(1, 5));
 		vote( User("someone"),randomCandidate);
 		#User("someone") because it does not really matter who voted what, I still keep the username field in order to make the code flexible for future requirements.
+	'''
 	with open('votes.pickle', 'wb') as handle:
 	    pickle.dump(results, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
@@ -108,13 +115,14 @@ def requestPercentageMultiProcess():
 	for j in jobs:
 		#Join the processes when the job is finished
 		j.join()
-	#Since we joined all the processes that are done. We now have only a single process going on.
+	#Since we joined all the processes that are completed. We now have only a single process working.
 	#The main thread is resposible for recording one single variable the sum of all votes.
 	shared["Total Votes"]=sum(results.values())
 	#Print the recorded time spent in the execution
 	print "execution time", time.time() - start, "s."
 	return shared.copy()
 
+#simulateLargeVotes()
 
 #Init data
 results["candidate-1"]=0
