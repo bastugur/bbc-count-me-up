@@ -48,7 +48,8 @@ def vote():
 		#if the user is logged in
 		email = session["user"].get("email")
 		#users 'private-key'
-		if request.form["candidate"]:
+		#debugger.set_trace()
+		try:
 			#just to ensure if the user selected a candidate (its always true but just in case, purely for design purposes)
 			all_votes = db.child("votes").get()
 			#now we get all the votes in the db
@@ -73,6 +74,11 @@ def vote():
 				results = countmeup.requestPercentageMultiProcess()
 
 				return render_template('index.html',results=results,user_data=session['user'],message='Sorry, you reached your maximum vote allowance')
+		except Exception, e:
+			results = countmeup.requestPercentageMultiProcess()
+
+			return render_template('index.html',results=results,user_data=session['user'],message='Please pick a candidate to vote.')
+
 	else:
 		return render_template('login.html')
 
