@@ -71,7 +71,7 @@ def randomword(length):
    return ''.join(random.choice(string.lowercase) for i in range(length))
 
 def simulateLargeVotes():
-	#This wont be executed. I ran this one in order to simulate the votes earlier and saved it in a file in order to save run-time
+	#This wont be executed. I ran this one in order to simulate the votes earlier and saved it in a file in order to save from run-time
 	for x in range(0,500000):
 		vote( User("someone"),1);
 	for x in range(0,1000000):
@@ -103,20 +103,20 @@ def requestPercentageMultiProcess():
    	#all processes will be kept in an array
    	manager = multiprocessing.Manager()
    	shared = manager.dict()
-   	#global variable
+   	#global shared variable
 
    	for i in range(5):
    		#I decided to create 5 child processes that run simultanously. Each process is responsible for one candidate.
 		p = multiprocessing.Process(target=calculateCandidate, args=(i,shared))
-		#Each process also utilises the global variable shared in order to save the count result
+		#Each process also utilises the global variable shared in order to save the count result. No deadlocks observed so far.
 		jobs.append(p)
 		#Save the child process to the array
 		p.start()
 	for j in jobs:
 		#Join the processes when the job is finished
 		j.join()
-	#Since we joined all the processes that are completed. We now have only a single process working.
-	#The main thread is resposible for recording one single variable the sum of all votes.
+	#Since all the processes are joined. We now only have a single process present.
+	#The main thread is resposible for recording the sum of all votes into the dictionary.
 	shared["Total Votes"]=sum(results.values())
 	#Print the recorded time spent in the execution
 	print "execution time", time.time() - start, "s."

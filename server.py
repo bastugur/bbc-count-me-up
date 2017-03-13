@@ -42,27 +42,27 @@ def index():
 @app.route('/vote',methods=['POST'])
 def vote():
 	user_vote_count=0
-	#I chosed to keep votes on the server side and not in the session in order to ensure the vote limit cannot be broken
+	#I chosed to keep votes on the server side and not in the session in order to ensure the vote limit cannot be exceeded
 	if 'user' in session:
 		#if the user is logged in
 		email = session["user"].get("email")
 		#users 'private-key'
 		#debugger.set_trace()
 		try:
-			#just to ensure if the user selected a candidate (its always true but just in case, purely for design purposes)
+			#if the user selected a candidate and there will be a valid request at the end of the day
 			all_votes = db.child("votes").get()
-			#now we get all the votes in the db
+			#now we get all the votes already made in the db
 			for vote in all_votes.each():
 					print(vote.key())
 					print(vote.val())
 					if(vote.val()["email"]==email):
 						#this vote is casted by current user
 						user_vote_count+=1
-					#this is the total votes casted by the user in the PAST
+					#this is the total votes casted by the user previously
 			if user_vote_count < 3:
 				vote_data = {"email":email, "vote":request.form["candidate"]}
 				db.child("votes").push(vote_data)
-				#we record a new vote is casted to the database.
+				#we record a new vote to the db.
 				user_vote_count+=1
 				countmeup.vote(User("anon"),request.form["candidate"])
 				results = countmeup.requestPercentageMultiProcess()
@@ -74,6 +74,7 @@ def vote():
 
 				return render_template('index.html',results=results,user_data=session['user'],message='Sorry, you reached your maximum vote allowance')
 		except Exception, e:
+			#If the user fails to fill out candidate, this is the line you are looking for
 			results = countmeup.requestPercentageMultiProcess()
 
 			return render_template('index.html',results=results,user_data=session['user'],message='Please pick a candidate to vote.')
@@ -116,18 +117,19 @@ def loginsucess():
 	try:
 		user = auth.sign_in_with_email_and_password(email, password)
 		session['user']=user
-		#we keep the logged in users in sessions
+		#keep the logged in users in sessions
 		print session
 		return redirect(url_for('index'))
 	except Exception, e:
 		#just to handle all sorts of exceptions and errors
+		#well its probably a wrong uname/email combination problem
 		return render_template('login.html',message='wrong email/password combination')
 
 
 
 @app.route('/fetch',methods=[ 'GET'])
 def fetchResultsREST():
-	#This method is for AJAX request that is executed every second. This method returns the JSON of the results.
+	#This method is for AJAX request that is executed every 0.5 second. This method returns the JSON of the result/votes-per-candidates.
 	return jsonify(countmeup.requestPercentageMultiProcess())
 
 if __name__ == "__main__":
