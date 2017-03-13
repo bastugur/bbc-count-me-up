@@ -42,7 +42,6 @@ def index():
 
 @app.route('/vote',methods=['POST'])
 def vote():
-	results = countmeup.requestPercentageMultiProcess()
 	user_vote_count=0
 	#I chosed to keep votes on the server side and not in the session in order to ensure the vote limit cannot be broken
 	if 'user' in session:
@@ -66,10 +65,14 @@ def vote():
 				#we record a new vote is casted to the database.
 				user_vote_count+=1
 				countmeup.vote(User("anon"),request.form["candidate"])
+				results = countmeup.requestPercentageMultiProcess()
+
 				#but we compute the votes mutually exclusively from the database.
-				return render_template('index.html',results=results,message='Your vote is recorded. You have '+str(3-user_vote_count)+' votes left')
+				return render_template('index.html',results=results,user_data=session['user'],message='Your vote is recorded. You have '+str(3-user_vote_count)+' votes left')
 			else:
-				return render_template('index.html',results=results,message='Sorry, you reached your maximum vote allowance')
+				results = countmeup.requestPercentageMultiProcess()
+
+				return render_template('index.html',results=results,user_data=session['user'],message='Sorry, you reached your maximum vote allowance')
 	else:
 		return render_template('login.html')
 
