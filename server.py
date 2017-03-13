@@ -27,7 +27,6 @@ app.secret_key = 'so-secret'
 def index():
 
 	results = countmeup.requestPercentageMultiProcess()
-	#The application is RESTful therefore we can process the output easily
 	if 'user' in session:
 		#Checking if the user is logged in, if that is the case we simply keep the user auth data in session
 		print "user logged in"
